@@ -1,30 +1,27 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#09111f"><title>VPN WORLD 6</title>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#00643b"><title>VPN WORLD 6</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#09111f;color:#eef4ff;font-family:Arial,sans-serif;padding:18px}
-header{text-align:center;padding:22px 8px}.logo{font-size:42px}h1{margin:8px 0;color:#66a6ff}p{color:#9fb0c8}
-button{border:0;border-radius:12px;padding:13px 18px;background:#2678ef;color:white;font-weight:bold;font-size:15px}
-#status{margin:12px 0;color:#9fb0c8;text-align:center}.server{background:#121f33;border:1px solid #233754;border-radius:15px;padding:15px;margin:12px 0}
-.server h3{margin:0 0 8px}.meta{font-size:13px;color:#a9bad1;line-height:1.8}.server button{margin-top:10px}
-.toolbar{display:flex;gap:8px}.toolbar button{flex:1}input{width:100%;padding:12px;border-radius:10px;border:1px solid #304664;background:#101c2e;color:white;margin:12px 0}
-small{color:#8398b5}
-</style></head>
-<body>
-<header><div class="logo">🌐</div><h1>VPN WORLD 6</h1><p>قائمة خوادم VPN Gate المتاحة</p><div class="toolbar"><button onclick="refresh()">بحث عن الخوادم</button><button onclick="sortServers()">ترتيب حسب Ping</button></div></header>
-<div id="status">جارٍ بدء البحث عن الخوادم...</div>
-<input id="filter" placeholder="ابحث عن دولة أو عنوان IP..." oninput="render()">
-<main id="servers"></main>
-<footer><small>الخوادم مقدمة من VPN Gate وقد تتوقف أو تتغير سرعتها. حفظ ملف الإعداد لا يعني أن الاتصال قد تم.</small></footer>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#172019;font-family:Arial,sans-serif}.top{height:66px;background:#00643b;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-weight:bold}.top b{font-size:19px}header{text-align:center;padding:22px 15px 10px}.logo{width:108px;height:108px;margin:auto auto 10px;border:7px solid #00643b;clip-path:polygon(50% 0,90% 18%,88% 68%,50% 100%,12% 68%,10% 18%);background:#e8f5ec;color:#00643b;display:grid;place-items:center;font-size:25px;font-weight:900}h1{color:#00643b;font-size:23px;margin:8px}.sub{color:#68736c;font-size:14px}.stats{display:flex;justify-content:space-around;padding:16px 8px;border-bottom:1px solid #dce8e0;font-size:12px}.status{text-align:center;color:#00643b;font-size:26px;font-weight:bold;margin:20px 0 6px}#detail{text-align:center;color:#68736c;font-size:13px;min-height:22px;margin-bottom:14px}.wrap{max-width:650px;margin:auto;padding:0 17px}.panel{border:4px solid #00643b;border-radius:23px;padding:15px;margin:14px 0;position:relative}.tag{position:absolute;top:-13px;right:18px;background:#00643b;color:white;padding:3px 12px;border-radius:12px;font-size:12px;font-weight:bold}.row{display:flex;align-items:center;gap:12px}.shield{width:36px;height:36px;border-radius:50%;background:#e5f4e9;color:#00643b;display:grid;place-items:center;font-weight:bold}.panel-title{font-size:17px;font-weight:bold}.panel-sub{font-size:12px;color:#68736c;margin-top:5px}.controls{display:flex;gap:9px;margin:18px 0}button{border:0;border-radius:12px;padding:14px 10px;background:#00643b;color:white;font-weight:bold;font-size:14px;flex:1}button.secondary{background:#e8f3ec;color:#00643b;border:1px solid #b8d6c3}button:disabled{opacity:.45}.searchbox{width:100%;padding:14px;border:1px solid #cbd9cf;border-radius:12px;font-size:15px;margin:8px 0 12px}.listhead{display:flex;justify-content:space-between;color:#00643b;font-weight:bold;margin:14px 2px}.server{border:1px solid #d6e5da;border-radius:15px;padding:13px;margin:10px 0;background:#fbfefc}.server h3{margin:0 0 7px;font-size:16px}.meta{font-size:12px;color:#68736c;line-height:1.9}.server button{margin-top:10px;padding:10px;font-size:13px}.power{display:block;width:150px;height:150px;border:12px solid #00df24;border-radius:50%;background:white;color:#111;font-size:62px;margin:28px auto 10px}.power-label{text-align:center;color:#00643b;font-weight:bold;font-size:13px}footer{text-align:center;padding:24px 18px 35px;color:#89948d;font-size:11px;line-height:1.7}
+</style></head><body>
+<div class="top"><span style="font-size:28px">☰</span><b>VPN WORLD 6</b><span>🌐</span></div>
+<header><div class="logo">VPN<br>W6</div><h1>VPN WORLD 6</h1><p class="sub">البحث عن خوادم VPN المتاحة</p></header>
+<div class="stats"><span>🌍 خوادم عالمية</span><span id="count">0 خادم</span><span>تحديث مباشر</span></div>
+<div class="status" id="status">جاهز للبحث</div><div id="detail">سيبدأ البحث تلقائياً عند فتح التطبيق</div>
+<div class="wrap">
+<section class="panel"><span class="tag">SERVER</span><div class="row"><div class="shield">W6</div><div><div class="panel-title">اختيار الخادم</div><div class="panel-sub">اختر خادماً من القائمة أدناه</div></div></div></section>
+<section class="panel"><span class="tag">NETWORK</span><div class="row"><div class="shield">✓</div><div><div class="panel-title">VPN Gate – Public Relay</div><div class="panel-sub">قائمة خوادم عامة قابلة للتغير</div></div></div></section>
+<div class="controls"><button id="searchBtn" onclick="refresh()">⌕ بحث عن الخوادم</button><button class="secondary" id="stopBtn" onclick="stopSearch()" disabled>■ إيقاف البحث</button></div>
+<input class="searchbox" id="filter" placeholder="ابحث عن دولة أو عنوان IP..." oninput="render()">
+<div class="listhead"><span>الخوادم المتاحة</span><span id="shown">0</span></div><main id="servers"></main>
+<button class="power" onclick="stopSearch()" aria-label="إيقاف البحث">Ⅱ</button><div class="power-label">إيقاف البحث الحالي</div></div>
+<footer>مصدر الخوادم: VPN Gate. قد تتغير حالة الخوادم وسرعتها. هذه النسخة تعرض الخوادم وتحفظ ملفات الإعداد فقط، ولا تنشئ اتصال VPN من داخل التطبيق.</footer>
 <script>
-let data=[];
-function refresh(){document.getElementById('status').textContent='جارٍ البحث عن الخوادم...';document.getElementById('servers').innerHTML='';if(window.AndroidBridge)AndroidBridge.loadServers();else onServersError('افتح التطبيق على Android لتحميل الخوادم');}
-function onServersLoaded(items){data=items||[];document.getElementById('status').textContent='تم العثور على '+data.length+' خادماً';render();}
-function onServersError(msg){document.getElementById('status').textContent='تعذر تحميل الخوادم: '+msg;}
-function render(){let q=document.getElementById('filter').value.toLowerCase();let root=document.getElementById('servers');root.innerHTML='';data.forEach((s,i)=>{if(!(s.country+' '+s.ip+' '+s.host).toLowerCase().includes(q))return;let el=document.createElement('section');el.className='server';let h=document.createElement('h3');h.textContent=(s.countryCode||'🌐')+' '+(s.country||'دولة غير معروفة');let m=document.createElement('div');m.className='meta';m.textContent='IP: '+s.ip+' · Ping: '+(s.ping||'?')+' ms · Score: '+(s.score||'?');let b=document.createElement('button');b.textContent='حفظ ملف إعداد OpenVPN';b.onclick=()=>AndroidBridge.saveConfig(i);el.append(h,m,b);root.appendChild(el);});}
-function sortServers(){data.sort((a,b)=>(Number(a.ping)||999999)-(Number(b.ping)||999999));render();}
-window.onServersLoaded=onServersLoaded;window.onServersError=onServersError;
-window.onload=refresh;
+let data=[],searching=false;const $=id=>document.getElementById(id);
+function setSearching(v){searching=v;$('searchBtn').disabled=v;$('stopBtn').disabled=!v;$('status').textContent=v?'جارٍ البحث…':'تم إيقاف البحث';}
+function refresh(){if(searching)return;data=[];$('servers').innerHTML='';$('count').textContent='0 خادم';$('shown').textContent='0';$('detail').textContent='يتم جلب قائمة الخوادم من VPN Gate';setSearching(true);if(window.AndroidBridge)AndroidBridge.loadServers();else{setSearching(false);onServersError('افتح التطبيق على Android لتحميل الخوادم');}}
+function stopSearch(){if(!searching)return;if(window.AndroidBridge)AndroidBridge.cancelServers();setSearching(false);$('detail').textContent='أوقفت عملية البحث';}
+function onServersLoaded(items){if(!searching)return;data=items||[];setSearching(false);$('status').textContent=data.length?'اكتمل البحث':'لم يتم العثور على خوادم';$('detail').textContent='تم العثور على '+data.length+' خادماً';$('count').textContent=data.length+' خادم';render();}
+function onServersError(msg){setSearching(false);$('status').textContent='تعذر البحث';$('detail').textContent=msg;}
+function render(){let q=$('filter').value.toLowerCase(),root=$('servers');root.innerHTML='';let n=0;data.forEach((s,i)=>{if(!(s.country+' '+s.ip+' '+s.host).toLowerCase().includes(q))return;n++;let el=document.createElement('section');el.className='server';let h=document.createElement('h3');h.textContent=(s.countryCode||'🌐')+' · '+(s.country||'دولة غير معروفة');let m=document.createElement('div');m.className='meta';m.textContent='IP: '+s.ip+' · Ping: '+(s.ping||'?')+' ms · Score: '+(s.score||'?');let b=document.createElement('button');b.textContent='حفظ ملف إعداد OpenVPN';b.onclick=()=>AndroidBridge.saveConfig(i);el.append(h,m,b);root.appendChild(el);});$('shown').textContent=n;}
+window.onServersLoaded=onServersLoaded;window.onServersError=onServersError;window.onload=()=>setTimeout(refresh,250);
 </script></body></html>
