@@ -13,6 +13,8 @@ import java.net.URL
 class MainActivity : Activity() {
     private lateinit var web: WebView
     private val servers = mutableListOf<JSONObject>()
+    @Volatile private var cancelSearch = false
+    @Volatile private var activeConnection: HttpURLConnection? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +31,18 @@ class MainActivity : Activity() {
     inner class Bridge {
         @JavascriptInterface
         fun loadServers() {
+            cancelSearch = false
             Thread {
                 try {
                     val connection = URL("https://www.vpngate.net/api/iphone/").openConnection() as HttpURLConnection
                     connection.connectTimeout = 15000
                     connection.readTimeout = 20000
                     connection.setRequestProperty("User-Agent", "VPN-WORLD-6-Android")
+                    activeConnection = connection
                     val csv = connection.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
                     connection.disconnect()
+                    activeConnection = null
+                    if (cancelSearch) return@Thread
                     val rows = csv.lineSequence().filter { it.isNotBlank() && !it.startsWith("*") }.toList()
                     if (rows.size < 2) throw Exception("No server data")
                     val headers = parseCsv(rows.first().removePrefix("#"))
@@ -44,6 +50,7 @@ class MainActivity : Activity() {
                     val result = JSONArray()
                     servers.clear()
                     for (line in rows.drop(1)) {
+                        if (cancelSearch) return@Thread
                         val cells = parseCsv(line)
                         fun value(key: String) = cells.getOrNull(indexes[key] ?: -1).orEmpty()
                         val config = value("OpenVPN_ConfigData_Base64")
@@ -59,14 +66,20 @@ class MainActivity : Activity() {
                         servers.add(item)
                         result.put(item)
                     }
-                    runOnUiThread { web.evaluateJavascript("window.onServersLoaded($result)", null) }
+                    if (!cancelSearch) runOnUiThread { if (!cancelSearch) web.evaluateJavascript("window.onServersLoaded($result)", null) }
                 } catch (e: Exception) {
-                    runOnUiThread {
+                    if (!cancelSearch) runOnUiThread {
                         val message = JSONObject.quote(e.message ?: "تعذر جلب الخوادم")
                         web.evaluateJavascript("window.onServersError($message)", null)
                     }
                 }
             }.start()
+        }
+
+        @JavascriptInterface
+        fun cancelServers() {
+            cancelSearch = true
+            activeConnection?.disconnect()
         }
 
         @JavascriptInterface
